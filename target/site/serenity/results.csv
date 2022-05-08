@@ -1,0 +1,3 @@
+"Story","Title","Result","Date","Stability","Duration (s)"
+"The user want to see all the available pets in the website","User wants to retrieve all the available pets in the application","SUCCESS","2022-05-09T00:11:57.873+02:00[Europe/Paris]","0.0","3.42"
+"User wants to sell his pet for the first time","User wants to sell his pet on the application","SUCCESS","2022-05-09T00:12:01.324+02:00[Europe/Paris]","0.0","6.73"
