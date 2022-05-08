@@ -1,0 +1,418 @@
+{
+	"info": {
+		"_postman_id": "05919b80-0d16-4b80-8c8b-0a5075df1716",
+		"name": "ExercisePetStore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET_available_pets",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"eval(pm.collectionVariables.get(\"checkPetsAre\"));\r",
+							"\r",
+							"pm.test(\"All pets are available\",()=>{\r",
+							"    pm.expect(response instanceof Array).to.be.true\r",
+							"    checkPetsAre(response,\"available\")\r",
+							"    pm.collectionVariables.set(\"numberOfAvailablePets\",response.count());\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/pet/findByStatus?status=available",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet",
+						"findByStatus"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "available"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ADD_pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"pm.test(\"Pet has been added\",()=>{\r",
+							"    let id = response.id;\r",
+							"    pm.expect(id).to.exist;\r",
+							"    pm.collectionVariables.set(\"myPetId\",id);\r",
+							"})\r",
+							"pm.test(\"MyPet is available\",()=>{\r",
+							"    eval(pm.collectionVariables.get(\"checkPetsAre\"));\r",
+							"    checkPetsAre([response],\"available\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set('myTempPetId', Math.floor(Math.random() * 10000000000000000));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": {{myTempPetId}},\r\n    \"name\": \"{{myPetName}}\",\r\n    \"photoUrls\": [\r\n        \"{{photoPetURL}}\"\r\n    ],\r\n    \"status\": \"available\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/pet",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET_available_pets",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"All pets are available\",()=>{\r",
+							"    pm.expect(response instanceof Array).to.be.true;\r",
+							"    checkPetsAre(response,\"available\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"MyPet is in the store\",()=>{\r",
+							"    let myPetId = pm.collectionVariables.get(\"myPetId\");\r",
+							"    let myPhotoUrl = pm.collectionVariables.get(\"photoPetURL\");\r",
+							"    let myPet = response.find(el=>el.id===myPetId);\r",
+							"    \r",
+							"    pm.expect(myPet).to.exist;\r",
+							"    pm.expect(myPet.photoUrls).to.exist;\r",
+							"    pm.expect(myPet.photoUrls).to.include(myPhotoUrl);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/pet/findByStatus?status=available",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet",
+						"findByStatus"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "available"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE_pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"pm.test(\"Pet has been updated\",()=>{\r",
+							"    let id = response.id;\r",
+							"    pm.expect(id).to.exist;\r",
+							"    pm.expect(id).to.be.eqls(pm.collectionVariables.get(\"myPetId\"));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status has been replaced to sold\",()=>{\r",
+							"    eval(pm.collectionVariables.get(\"checkPetsAre\"));\r",
+							"    checkPetsAre([response],\"sold\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": {{myPetId}},\r\n    \"name\": \"{{myPetName}}\",\r\n    \"photoUrls\": [\r\n        \"{{photoPetURL}}\"\r\n    ],\r\n    \"status\": \"sold\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseURL}}/pet",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET_sold_pets",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"eval(pm.collectionVariables.get(\"checkPetsAre\"));\r",
+							"\r",
+							"pm.test(\"All pets are sold\",()=>{\r",
+							"    checkPetsAre(response,\"sold\")\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Revit is in the store\",()=>{\r",
+							"    let myPetId = pm.collectionVariables.get(\"myPetId\");\r",
+							"    let myPhotoUrl = pm.collectionVariables.get(\"photoPetURL\");\r",
+							"    let myPet = response.find(el=>el.id===myPetId);\r",
+							"    \r",
+							"    pm.expect(myPet).to.exist;\r",
+							"    pm.expect(myPet.photoUrls).to.exist;\r",
+							"    pm.expect(myPet.photoUrls).to.include(myPhotoUrl);\r",
+							"    pm.expect(myPet.status).to.be.eqls(\"sold\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/pet/findByStatus?status=sold",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet",
+						"findByStatus"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "sold"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE_pet",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/pet/{{myPetId}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet",
+						"{{myPetId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET_sold_and_available_pets",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"eval(pm.collectionVariables.get(\"checkPetsAre\"));\r",
+							"\r",
+							"pm.test(\"All pets are available\",()=>{\r",
+							"    pm.expect(response instanceof Array).to.be.true\r",
+							"    checkPetsAre(response,[\"available\",\"sold\"])\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Revit is not in the store\",()=>{\r",
+							"    let myPetId = pm.collectionVariables.get(\"myPetId\");\r",
+							"    let myPhotoUrl = pm.collectionVariables.get(\"photoPetURL\");\r",
+							"    let myPet = response.find(el=>el.id===myPetId&&el.photoUrls&&el.photoUrls.include(myPhotoUrl));\r",
+							"    pm.expect(myPet).to.not.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/pet/findByStatus?status=sold,available",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"pet",
+						"findByStatus"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "sold,available"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"/**",
+					" * ",
+					" * This is not the best solution, but for this simple tests scenario works fine.",
+					" * Would be a better solution if we would use this kind of functions along with global files",
+					" * to keep it maintenable.",
+					" * ",
+					"*/",
+					"",
+					"let checkPetsAre = `function checkPetsAre(pets,desiredStatus=[\"available\",\"sold\",\"pending\"]){",
+					"    if(!(desiredStatus instanceof Array)){",
+					"        desiredStatus = [desiredStatus];",
+					"    }",
+					"    pets.forEach(el=>{",
+					"        pm.expect(el.status).to.exist;",
+					"        pm.expect(desiredStatus).to.include(el.status)",
+					"    })",
+					"}`;",
+					"pm.collectionVariables.set(\"checkPetsAre\",checkPetsAre);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "https://petstore.swagger.io/v2"
+		},
+		{
+			"key": "numberOfAvailablePets",
+			"value": ""
+		},
+		{
+			"key": "photoPetURL",
+			"value": "https://d8tc6urvga8o3.cloudfront.net/media/blog/870x/min/4970-233950-el-mastin-.jpg"
+		},
+		{
+			"key": "myPetName",
+			"value": "revit"
+		},
+		{
+			"key": "myPetId",
+			"value": ""
+		},
+		{
+			"key": "myTempPetId",
+			"value": ""
+		},
+		{
+			"key": "checkPetsAre",
+			"value": ""
+		}
+	]
+}

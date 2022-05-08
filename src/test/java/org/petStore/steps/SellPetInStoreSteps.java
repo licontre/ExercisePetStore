@@ -32,7 +32,6 @@ public class SellPetInStoreSteps {
         petObject = responsePost.jsonPath().getMap("$");
         String statusString = (String) petObject.get("status");
         Assert.assertEquals(statusString,"available");
-//        ReportData.withTitle("Status is available").andContents("asdasd");
 
     }
     @And("checks that the pet is available")

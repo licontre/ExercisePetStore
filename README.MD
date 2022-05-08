@@ -14,6 +14,8 @@
 
 ## Run tests:
 * `mvn clean verify`
+* I have created a collection postman to run that scenario using a different tool, you can find the postman collection on the root of the project:
+  * ExercisePetStore.postman_collection.json
 
 ## View HTML Report
 * HTML report will be generated once execution finish ExercisePetStore\target\site\serenity\index.html
