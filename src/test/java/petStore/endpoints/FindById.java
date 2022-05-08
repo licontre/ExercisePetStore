@@ -1,22 +1,23 @@
-package org.petStore.endpoints;
+package petStore.endpoints;
 
 import io.restassured.response.Response;
 import net.serenitybdd.rest.SerenityRest;
+import net.thucydides.core.annotations.Step;
 
-public class FindByStatus {
+public class FindById {
     private String baseURL = "https://petstore.swagger.io/v2";
     public Response response;
 
-    public FindByStatus(String baseURL){
+    public FindById(String baseURL){
         this.baseURL = baseURL;
     }
     public Response getResponse(){
         return response;
     }
-    public Response findByStatus(String status){
+    @Step("Finds by Id {0}")
+    public Response findById(String id){
         return SerenityRest.given()
-                .queryParam("status",status)
                 .when()
-                .get(baseURL+"/pet/findByStatus");
+                .get(baseURL+"/pet/"+id);
     }
 }

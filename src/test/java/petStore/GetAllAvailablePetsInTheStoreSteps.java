@@ -1,19 +1,21 @@
-package org.petStore.steps;
+package petStore;
 
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
 import io.restassured.parsing.Parser;
 import io.restassured.response.Response;
-;
+import net.thucydides.core.annotations.Steps;
 import org.junit.Assert;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
-import org.petStore.endpoints.FindByStatus;
+import petStore.endpoints.FindByStatus;
 import java.util.HashMap;
 import java.util.List;
 
+
 public class GetAllAvailablePetsInTheStoreSteps {
     private final String baseURL = "https://petstore.swagger.io/v2";
+
     private FindByStatus findByStatus;
     private Response response;
 

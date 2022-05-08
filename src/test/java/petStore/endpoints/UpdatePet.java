@@ -1,8 +1,9 @@
-package org.petStore.endpoints;
+package petStore.endpoints;
 
 import com.google.gson.Gson;
 import io.restassured.response.Response;
 import net.serenitybdd.rest.SerenityRest;
+import net.thucydides.core.annotations.Step;
 
 import java.util.Map;
 
@@ -16,19 +17,25 @@ public class UpdatePet {
     public Response getResponse(){
         return response;
     }
+    @Step("Update pet")
     public Response updatePet(Map petMap){
+        String body = (new Gson()).toJson(petMap);
         return SerenityRest.given()
                 .contentType("application/json")
-                .content(petMap).log().body()
+                .body(body)
+                //.content(petMap).log().body()
                 .baseUri(baseURL)
                 .basePath("/pet")
                 .when().put();
     }
+    @Step("Update pet by json")
     public Response updatePet(String jsonString){
         Map jsonAsMap = (new Gson()).fromJson(jsonString, Map.class);
+        String body = (new Gson()).toJson(jsonAsMap);
         return SerenityRest.given()
                 .contentType("application/json")
-                .content(jsonAsMap).log().body()
+                .body(body)
+//                .content(jsonAsMap).log().body()
                 .baseUri(baseURL)
                 .basePath("/pet")
                 .when().put();

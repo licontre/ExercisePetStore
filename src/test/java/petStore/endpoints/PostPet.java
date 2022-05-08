@@ -1,7 +1,10 @@
-package org.petStore.endpoints;
+package petStore.endpoints;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.google.gson.Gson;
 import io.restassured.response.Response;
 import net.serenitybdd.rest.SerenityRest;
+import net.thucydides.core.annotations.Step;
 
 import java.util.*;
 
@@ -16,14 +19,19 @@ public class PostPet {
         return response;
     }
 
+    @Step("Post a Pet by name {0}")
     public Response postAvailable(String petName){
         Map<String,Object> jsonAsMap = getAvailablePet(petName);
-        return SerenityRest.given()
+        String body = (new Gson()).toJson(jsonAsMap);
+        Response res = SerenityRest.given()
                 .contentType("application/json")
-                .content(jsonAsMap).log().body()
+                .body(body)
+                //.content(jsonAsMap).log().body()
                 .baseUri(baseURL)
                 .basePath("/pet")
                 .when().post();
+
+        return  res;
     }
 
     public Map<String,Object> getAvailablePet(){

@@ -1,21 +1,9 @@
-# Rest-assured with Cucumber and Serenity
+# Getting started with REST API testing with Serenity and Cucumber 6
 
-## Project Description:
-* serenity.version: 1.8.3
-* serenity.cucumber.version: 1.6.6
-* JUnit.version: 4.12
-* Written in Java with Junit, Cucumber & Maven
-* Can run test scripts in parallel
+This is a simple starter project for Serenity with Cucumber 6 and RestAssured
 
-## Setup:
-* Install [Java 8](http://www.oracle.com/technetwork/java/javase/overview/java8-2100321.html)
-* Install Maven [Maven](https://maven.apache.org/)
-
-
-## Run tests:
-* `mvn clean verify`
-* I have created a collection postman to run that scenario using a different tool, you can find the postman collection on the root of the project:
-  * ExercisePetStore.postman_collection.json
-
-## View HTML Report
-* HTML report will be generated once execution finish ExercisePetStore\target\site\serenity\index.html
+## Want to learn more?
+For more information about Serenity BDD, you can read the [**Serenity BDD Book**](https://serenity-bdd.github.io/theserenitybook/latest/index.html), the official online Serenity documentation source. Other sources include:
+* **[Byte-sized Serenity BDD](https://www.youtube.com/channel/UCav6-dPEUiLbnu-rgpy7_bw/featured)** - tips and tricks about Serenity BDD
+* [**Serenity BDD Blog**](https://johnfergusonsmart.com/category/serenity-bdd/) - regular articles about Serenity BDD
+* [**The Serenity Dojo**](https://www.serenity-dojo.com) - Tailored BDD and Test Automation Training and Mentoring
